@@ -1,4 +1,4 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/cloudflare";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";

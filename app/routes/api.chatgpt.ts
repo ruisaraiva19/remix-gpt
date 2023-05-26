@@ -1,6 +1,6 @@
-import type { DataFunctionArgs } from "@remix-run/node";
+import type { DataFunctionArgs } from "@remix-run/cloudflare";
 
-export const loader = async ({ request }: DataFunctionArgs) => {
+export const loader = async ({ request, context }: DataFunctionArgs) => {
   const { searchParams } = new URL(request.url);
   const prompt = searchParams.get("prompt");
 
@@ -12,7 +12,7 @@ export const loader = async ({ request }: DataFunctionArgs) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      Authorization: `Bearer ${context.OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
