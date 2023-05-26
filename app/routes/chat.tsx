@@ -39,7 +39,7 @@ export default function Chat() {
 
   return (
     <div className="container mx-auto space-y-6 px-4">
-      <div className="prose mx-auto flex h-screen max-h-screen flex-col">
+      <div className="prose mx-auto flex h-screen max-h-screen flex-col dark:prose-invert">
         <div className="shrink-0">
           <h1 id="chat-title" className="pt-4 text-3xl font-bold">
             Welcome to Remix GPT
@@ -209,7 +209,7 @@ export default function Chat() {
                   rows={1}
                   name="prompt"
                   id="prompt"
-                  className="block min-h-[40px] w-full resize-none rounded-md border-0 py-2 pr-9 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300"
+                  className="block min-h-[40px] w-full resize-none rounded-md border-0 bg-white py-2 pr-9 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300 dark:bg-slate-700 dark:text-gray-100"
                   placeholder="Add your prompt..."
                   ref={textAreaRef}
                   value={value}
@@ -227,7 +227,7 @@ export default function Chat() {
             <div className="absolute bottom-1 right-1">
               <button
                 type="submit"
-                className="flex items-center rounded-md p-1 text-indigo-900 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-200 active:hover:bg-indigo-200 disabled:opacity-50"
+                className="flex items-center rounded-md p-1 text-indigo-900 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-200 active:hover:bg-indigo-200 disabled:opacity-50 dark:text-indigo-100"
                 disabled={!value || isLoading}
               >
                 {isLoading ? (
