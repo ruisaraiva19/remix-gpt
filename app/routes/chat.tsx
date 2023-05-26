@@ -24,16 +24,12 @@ type MessageError = {
 
 export default function Chat() {
   const [messages, setMessages] = useState<Array<Message>>([]);
-  const [value, setValue] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [streamedText, setStreamedText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<MessageError | null>(null);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
-
-  useAutoSizeTextArea(textAreaRef.current, value);
 
   const chatRef = useChatScroll([messages, streamedText]);
 
@@ -164,7 +160,6 @@ export default function Chat() {
                   content: prompt,
                 },
               ]);
-              setValue("");
               setIsLoading(true);
               let content = "";
               const abortController = new AbortController();
@@ -200,35 +195,12 @@ export default function Chat() {
               });
             }}
           >
-            <div>
-              <label htmlFor="prompt" className="sr-only">
-                Add your prompt
-              </label>
-              <div>
-                <textarea
-                  rows={1}
-                  name="prompt"
-                  id="prompt"
-                  className="block min-h-[40px] w-full resize-none rounded-md border-0 bg-white py-2 pr-9 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300 dark:bg-slate-700 dark:text-gray-100"
-                  placeholder="Add your prompt..."
-                  ref={textAreaRef}
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  autoComplete="off"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      formRef.current?.requestSubmit();
-                    }
-                  }}
-                />
-              </div>
-            </div>
+            <PromptInput key={messages[messages.length - 1]?.id || ""} />
             <div className="absolute bottom-1 right-1">
               <button
                 type="submit"
                 className="flex items-center rounded-md p-1 text-indigo-900 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-200 active:hover:bg-indigo-200 disabled:opacity-50 dark:text-indigo-100"
-                disabled={!value || isLoading}
+                disabled={isLoading}
               >
                 {isLoading ? (
                   <svg
@@ -271,6 +243,41 @@ export default function Chat() {
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function PromptInput() {
+  const [value, setValue] = useState("");
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useAutoSizeTextArea(textAreaRef.current, value);
+
+  return (
+    <div>
+      <label htmlFor="prompt" className="sr-only">
+        Add your prompt
+      </label>
+      <div>
+        <textarea
+          rows={1}
+          name="prompt"
+          id="prompt"
+          className="block min-h-[40px] w-full resize-none rounded-md border-0 bg-white py-2 pr-9 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300 dark:bg-slate-700 dark:text-gray-100"
+          placeholder="Add your prompt..."
+          ref={textAreaRef}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          autoComplete="off"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              e.currentTarget.form?.requestSubmit();
+            }
+          }}
+          autoFocus
+        />
       </div>
     </div>
   );
